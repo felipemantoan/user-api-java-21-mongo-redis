@@ -17,9 +17,9 @@ Como este é um processo de "code review", evite adicionar código gerado ao pro
 ***Obs***: Para realizar esse teste, não crie um repositório público! Esse desafio é compartilhado apenas com pessoas que estamos entrevistando e gostaríamos que permanecesse assim.  
 
 
-Nós utilizamos o [Docker](https://www.docker.com/products/docker) para executar as aplicações, por isso, pedimos que você faça o mesmo neste teste. Isso garante que tenhamos um resultado idêntico ao seu quando testarmos sua aplicação.
+Nós utilizamos o [Docker](https://www.docker.com/products/docker) para executar a aplicação, por isso, pedimos que você faça o mesmo neste teste. Isso garante que tenhamos um resultado idêntico ao seu quando testarmos sua aplicação.
 
-Para facilitar o teste, disponibilizamos alguns containters que vão lhe ajudar a construir e executar suas aplicações, mas fique à vontade para alterá-los conforme preferir!
+Para facilitar o teste, disponibilizamos alguns containters que vão lhe ajudar a construir e executar sua aplicação, mas fique à vontade para alterá-los conforme preferir!
 
 Para executá-los é fácil, acesse o diretório `user-api` e execute o comando: `docker-compose -up -d` e em seguida acesse o diretório `order-api` e execute o mesmo comando: `docker-compose -up -d`
 
@@ -36,20 +36,19 @@ Para executá-los é fácil, acesse o diretório `user-api` e execute o comando:
 
 - Clone este repositório.
 - Crie uma nova branch chamada `dev`
-- Desenvolva as aplicações.
-- Crie uma "pull request" da branch `dev` para a "branch" `master`. Essa PR deve conter as instruções para executarmos as suas aplicações, as tecnologias que você decidiu usar, por que decidiu utilizá-las e também as decisões que você teve quanto ao design do seu código.
+- Desenvolva as aplicação.
+- Crie uma "pull request" da branch `dev` para a "branch" `master`. Essa PR deve conter as instruções para executarmos a sua aplicação, as tecnologias que você decidiu usar, por que decidiu utilizá-las e também as decisões que você teve quanto ao design do seu código.
 
 
-## Requisitos das aplicações:
+## Requisitos das aplicação:
 
-Nós desejamos que você crie 2 aplicações básicas (microserviços) que comuniquem-se entre si.
+Nós desejamos que você crie 2 aplicação básicas (microserviços) que comuniquem-se entre si.
 
 O primeiro deles deverá ser um cadastro de usuários, contendo os seguintes recursos:
 
 - Listar, exibir, criar, alterar e excluir usuários  
 
 Tabela de usuários `user` deverá conter os campos: id, name, cpf, email, phone_number, created_at, updated_at  
-
 
 Lembre-se de fazer a comunicação necessária entre os serviços para garantir a consistência de dados.  
 
