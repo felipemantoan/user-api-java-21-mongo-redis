@@ -6,7 +6,7 @@ O objetivo deste teste é verificar (até certo ponto) suas habilidades de codif
 
 Nós encorajamos você a exagerar um pouco na solução para mostrar do que você é capaz.
 
-Considere um cenário em que você esteja construindo uma aplicação pronta para produção, onde outros desenvolvedores precisarão trabalhar e manter essa aplicação ao longo do tempo.  
+Considere um cenário em que você esteja construindo uma aplicação pronta para produção, onde outros desenvolvedores precisarão trabalhar e manter essa aplicação ao longo do tempo.
 
 Você **PODE** e **DEVE** usar bibliotecas de terceiros, usando ou não um framework, você decide. Lembre-se, um desenvolvedor eficaz sabe o que construir e o que reutilizar.
 
@@ -21,11 +21,11 @@ Nós utilizamos o [Docker](https://www.docker.com/products/docker) para executar
 
 Para facilitar o teste, disponibilizamos alguns containters que vão lhe ajudar a construir e executar sua aplicação, mas fique à vontade para alterá-los conforme preferir!
 
-Para executá-los é fácil, acesse o diretório `user-api` e execute o comando: `docker-compose -up -d` e em seguida acesse o diretório `order-api` e execute o mesmo comando: `docker-compose -up -d`
+Para executá-los é fácil, acesse o diretório `user-api` e execute o comando: `docker-compose -up -d`.
 
 ## Requisitos mínimos para o teste:
 
-- Persistência de dados em banco relacional e não relacional. Pode ser MySQL ou PostgreeSQL e queremos ver você utilizar Elastic Search!
+- Persistência de dados em banco não relacional. Pode ser MongoDB.
 - Camada de cache em memória. Pode ser Redis, Memcached, ou APCU.
 - Utilização de um ORM para manipulação dos dados.
 - Testes unitários.
@@ -37,7 +37,7 @@ Para executá-los é fácil, acesse o diretório `user-api` e execute o comando:
 - Clone este repositório.
 - Crie uma nova branch chamada `dev`
 - Desenvolva as aplicação.
-- Crie uma "pull request" da branch `dev` para a "branch" `master`. Essa PR deve conter as instruções para executarmos a sua aplicação, as tecnologias que você decidiu usar, por que decidiu utilizá-las e também as decisões que você teve quanto ao design do seu código.
+- Crie uma "pull request" da branch `dev` para a "branch" `main`. Essa PR deve conter as instruções para executarmos a sua aplicação, as tecnologias que você decidiu usar, por que decidiu utilizá-las e também as decisões que você teve quanto ao design do seu código.
 
 
 ## Requisitos das aplicação:
