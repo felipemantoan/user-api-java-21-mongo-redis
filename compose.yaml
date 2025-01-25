@@ -1,0 +1,36 @@
+services:
+
+  redis:
+    image: docker.io/library/redis:7.4
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    # volumes:
+    #   - redis_data:/data
+    ports:
+      - 6379:6379
+      - 8001:8001
+    networks:
+      - spring-user-api
+
+  mongo:
+    restart: always
+    image: docker.io/library/mongo:8.0.4
+    environment:
+      MONGO_INITDB_DATABASE: userAPI
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mantoan
+    # volumes:
+    #   - mongo_data:/data/db
+    networks:
+      - spring-user-api
+    ports:
+      - 27017:27017
+
+networks:
+  spring-user-api:
+    name: spring-user-api
+    external: true
+
+# volumes:
+  # mongo_data:
+  # redis_data:
