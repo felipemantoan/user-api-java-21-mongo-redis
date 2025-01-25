@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: user-api
+
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      database: ${MONGO_DB}
+      username: ${MONGO_USER}
+      password: ${MONGO_PASS}
+      port: ${MONGO_PORT}
+      authentication-database: admin
+
+    redis:
+      # database: 0
+      host: localhost
+      port: 6379
+      # password: mypass
+      timeout: 60000
