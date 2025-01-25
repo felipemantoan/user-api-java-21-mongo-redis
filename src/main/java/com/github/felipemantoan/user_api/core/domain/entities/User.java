@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotEmpty;
 @Document(collection = "user")
 public record User(
     @Id UUID id, 
-    @Field("name") @NotEmpty String name, 
+    @Field("name") @NotEmpty @Length(min = 10, max = 255) String name, 
     @Field("cpf") @CPF @Indexed(unique = true) String cpf, 
     @Field("email") @NotEmpty @Indexed(unique = true) @Email String email, 
     @Field("phone_number") @NotEmpty @Length(min = 10, max = 11) String phoneNumber,
