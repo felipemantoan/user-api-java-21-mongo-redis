@@ -14,7 +14,7 @@ public class GetUserById {
 
     @Autowired private UserService service;
 
-    public User execute(UUID userId) {
+    public User execute(String userId) {
         return service.getOne(userId).get();
     }
 }

@@ -19,9 +19,9 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Document(collection = "user")
 public record User(
-    @Field("_id") 
+    
     @Id
-    UUID id,
+    String id,
     
     @Field("name")
     @Length(min = 10, max = 255) 
@@ -60,7 +60,6 @@ public record User(
 ) {
 
     public User {
-        id = UUID.randomUUID();
         deleted = Boolean.FALSE;
     }
 

@@ -12,7 +12,7 @@ public class DeleteUserUseCase {
     
     @Autowired private UserService service;
 
-    public void execute(UUID userId) {
+    public void execute(String userId) {
         service.delete(userId);
     }
 

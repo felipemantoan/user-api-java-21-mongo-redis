@@ -14,8 +14,12 @@ public class UpdateUserUseCase {
     
     @Autowired private UserService service;
 
-    public Optional<User> execute(UUID userId, String name, String email, String phoneNumber) {
-        return service.update(userId, name, email, phoneNumber);
+    public User execute(String userId, String name, String email, String phoneNumber) throws Exception {
+        try {
+            return service.update(userId, name, email, phoneNumber).get();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 }
