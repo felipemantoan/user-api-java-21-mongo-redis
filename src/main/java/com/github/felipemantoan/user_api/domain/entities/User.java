@@ -16,14 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Field.Write;
 import br.com.caelum.stella.bean.validation.CPF;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-// @AllArgsConstructor
-// @Data
 @Document(collection = "user")
-// @NoArgsConstructor
 public record User(
     @Field("_id") 
     @Id
