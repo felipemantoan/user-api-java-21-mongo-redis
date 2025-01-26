@@ -1,4 +1,4 @@
-package com.github.felipemantoan.user_api.domain.usecases;
+package com.github.felipemantoan.user_api.application.usecases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -6,15 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.github.felipemantoan.user_api.domain.entities.User;
-import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.repositories.UserRepository;
+import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.UserService;
 
 @Component
-public class FindAll {
+public class GetAllUsersUseCase {
     
-    @Autowired private UserRepository repository;
+    @Autowired private UserService service;
 
     public Page<User> execute(Pageable pageable) {
-        return repository.findAll(pageable);
+        return service.getAll(pageable);
     }
 
 }

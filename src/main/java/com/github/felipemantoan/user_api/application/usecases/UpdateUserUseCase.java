@@ -1,4 +1,4 @@
-package com.github.felipemantoan.user_api.domain.usecases;
+package com.github.felipemantoan.user_api.application.usecases;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.felipemantoan.user_api.domain.entities.User;
-import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.repositories.UserRepository;
+import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.UserService;
 
 @Component
-public class Upgrade {
+public class UpdateUserUseCase {
     
-    @Autowired private UserRepository repository;
+    @Autowired private UserService service;
 
     public Optional<User> execute(UUID userId, String name, String email, String phoneNumber) {
-        return repository.findById(userId);
+        return service.update(userId, name, email, phoneNumber);
     }
 
 }

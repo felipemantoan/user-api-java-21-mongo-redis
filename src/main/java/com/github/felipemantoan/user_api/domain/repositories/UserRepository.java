@@ -1,4 +1,4 @@
-package com.github.felipemantoan.user_api.infrastructure.adapters.out.database.repositories;
+package com.github.felipemantoan.user_api.domain.repositories;
 
 import java.util.UUID;
 
