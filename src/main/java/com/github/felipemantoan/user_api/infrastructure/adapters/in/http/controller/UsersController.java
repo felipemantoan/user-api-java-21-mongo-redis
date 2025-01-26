@@ -1,6 +1,7 @@
 package com.github.felipemantoan.user_api.infrastructure.adapters.in.http.controller;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.felipemantoan.user_api.application.usecases.CreateUserUseCase;
 import com.github.felipemantoan.user_api.application.usecases.GetAllUsersUseCase;
+import com.github.felipemantoan.user_api.application.usecases.GetUserById;
 import com.github.felipemantoan.user_api.domain.entities.User;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
@@ -35,6 +37,8 @@ public class UsersController {
 
     @Autowired private GetAllUsersUseCase getAllUsersUseCase;
 
+    @Autowired private GetUserById getUserById;
+
     @Autowired private UserHttpMapper userHttpMapper;
 
     @PostMapping
@@ -45,9 +49,8 @@ public class UsersController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getById(@PathVariable("userId") String userId) {
-        // User user = new User(UUID.randomUUID(), "Mantoan", "93632927030", "1912348765", "email@email.com", null, null, null);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserResponseDTO> getById(@PathVariable("userId") UUID userId) {
+        return ResponseEntity.ok().body(userHttpMapper.map(getUserById.execute(userId)));
     }
 
     @GetMapping
