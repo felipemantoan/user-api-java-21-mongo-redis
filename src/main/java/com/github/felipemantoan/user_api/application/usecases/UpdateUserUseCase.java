@@ -16,7 +16,7 @@ public class UpdateUserUseCase {
 
     public User execute(String userId, String name, String email, String phoneNumber) throws Exception {
         try {
-            return service.update(userId, name, email, phoneNumber).get();
+            return service.update(userId, name, email, phoneNumber);
         } catch (Exception e) {
             throw e;
         }

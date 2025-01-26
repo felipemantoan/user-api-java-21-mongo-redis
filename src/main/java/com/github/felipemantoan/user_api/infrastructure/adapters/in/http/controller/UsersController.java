@@ -59,7 +59,7 @@ public class UsersController {
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
         User user = createUserUseCase.execute(userHttpMapper.map(dto));
-        URI uri = URI.create("/users/" + user.id());
+        URI uri = URI.create("/users/" + user.getId());
         return ResponseEntity.created(uri).body(userHttpMapper.map(user));
     }
 

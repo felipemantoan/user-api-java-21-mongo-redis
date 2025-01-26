@@ -16,51 +16,53 @@ import org.springframework.data.mongodb.core.mapping.Field.Write;
 import br.com.caelum.stella.bean.validation.CPF;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@Builder
+@Data
 @Document(collection = "user")
-public record User(
-    
+@NoArgsConstructor
+public class User{
+
     @Id
-    String id,
+    private String id;
     
     @Field("name")
     @Length(min = 10, max = 255) 
     @NotEmpty
-    String name,
+    private String name;
     
     @CPF
     @Field("cpf")
     @Indexed(unique = true) 
-    String cpf,
+    private String cpf;
     
     @Email
     @Field("email")
     @Indexed(unique = true)
     @NotEmpty
-    String email,
+    private String email;
 
     @Field("phone_number")
     @NotEmpty
     @Length(min = 10, max = 11)
-    String phoneNumber,
+    private String phoneNumber;
     
     @CreatedDate
     @Field("created_at")
-    LocalDateTime createdAt,
+    private LocalDateTime createdAt;
     
     @Field("updated_at")
     @LastModifiedDate
-    LocalDateTime updatedAt,
+    private LocalDateTime updatedAt;
     
     @Field(name ="deleted", write = Write.ALWAYS)
-    Boolean deleted,
+    private Boolean deleted;
 
     @Version
-    Long version
-) {
-
-    public User {
-        deleted = Boolean.FALSE;
-    }
-
+    private Long version;
 }

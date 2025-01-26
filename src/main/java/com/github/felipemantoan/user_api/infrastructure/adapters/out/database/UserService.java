@@ -20,18 +20,19 @@ public class UserService {
         return repository.save(user);
     }
 
-    public Optional<User> update(String userId, String name, String email, String phoneNumber) throws Exception {
+    public User update(String userId, String name, String email, String phoneNumber) throws Exception {
         
         Optional<User> optional = repository.findById(userId);
         
         if (optional.isPresent()) {
             User user = optional.get();
-            User updated = new User(user.id(), name, user.cpf(), email, phoneNumber, user.createdAt(), null, null, null);
-            repository.save(updated);
-            return Optional.of(updated);
+            user.setEmail(email);
+            user.setName(name);
+            user.setPhoneNumber(phoneNumber);
+            return repository.save(user);
         }
         
-        return Optional.empty();
+        return optional.orElseThrow(() -> new Exception());
     }
 
     public Page<User> getAll(Pageable pageable) {
