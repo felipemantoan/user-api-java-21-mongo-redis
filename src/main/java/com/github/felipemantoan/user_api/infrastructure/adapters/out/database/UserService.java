@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public Page<User> getAll(Pageable pageable) {
-        return repository.findAll(pageable);
+        return repository.findAllNoDeleted(pageable);
     }
 
     public Optional<User> getOne(String id) {

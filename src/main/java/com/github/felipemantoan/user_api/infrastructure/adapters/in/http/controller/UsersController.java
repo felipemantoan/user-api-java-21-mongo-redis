@@ -84,8 +84,8 @@ public class UsersController {
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getAll(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(
-        // userHttpMapper.map(getAllUsersUseCase.execute(pageable))
-        ).build();
+            getAllUsersUseCase.execute(pageable).map(userHttpMapper::map)
+        );
     }
 
 }
