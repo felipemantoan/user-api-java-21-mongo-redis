@@ -2,12 +2,12 @@ package com.github.felipemantoan.user_api.infrastructure.adapters.out.database.r
 
 import java.util.UUID;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.github.felipemantoan.user_api.domain.entities.User;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, UUID>{
+public interface UserRepository extends MongoRepository<User, UUID> {
     
 }
