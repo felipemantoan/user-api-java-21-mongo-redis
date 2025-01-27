@@ -13,7 +13,6 @@ services:
       - spring-user-api
 
   mongo:
-    restart: always
     image: docker.io/library/mongo:8.0.4
     environment:
       MONGO_INITDB_DATABASE: userAPI
