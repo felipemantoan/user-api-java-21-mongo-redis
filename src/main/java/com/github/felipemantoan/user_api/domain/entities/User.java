@@ -1,8 +1,6 @@
 package com.github.felipemantoan.user_api.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
