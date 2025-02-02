@@ -14,11 +14,7 @@ public class CreateUserUseCase {
     
     @Autowired private UserService service;
 
-    @Autowired
-    private Validator validator;
-
     public User execute(User user) {
-        log.info("{}", validator.validate(user));
         return service.create(user);
     }
 

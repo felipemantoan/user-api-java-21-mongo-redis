@@ -9,12 +9,19 @@ import org.springframework.stereotype.Component;
 import com.github.felipemantoan.user_api.domain.entities.User;
 import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.UserService;
 
+import jakarta.validation.Validator;
+
 @Component
 public class UpdateUserUseCase {
     
     @Autowired private UserService service;
 
+    @Autowired
+    private Validator validator;
+
     public User execute(String userId, String name, String email, String phoneNumber) throws Exception {
+
+        
         try {
             return service.update(userId, name, email, phoneNumber);
         } catch (Exception e) {

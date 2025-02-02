@@ -5,10 +5,14 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import com.github.felipemantoan.user_api.infrastructure.validation.UniqueKeys;
+
 import org.springframework.data.mongodb.core.mapping.Field.Write;
 
 import jakarta.validation.constraints.Email;
@@ -22,8 +26,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Document(collection = "user")
+@UniqueKeys(keys = {"email", "cpf"})
 @NoArgsConstructor
-public class User{
+public class User {
 
     @MongoId
     private String id;

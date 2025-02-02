@@ -78,7 +78,7 @@ public class UsersController {
     public ResponseEntity<UserResponseDTO> put(@PathVariable("userId") String userId,
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO) throws Exception {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),
-                updateUserRequestDTO.name(), updateUserRequestDTO.phoneNumber())));
+                updateUserRequestDTO.email(), updateUserRequestDTO.phoneNumber())));
     }
 
     @GetMapping
