@@ -3,6 +3,7 @@ package com.github.felipemantoan.user_api.infrastructure.validation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.Arrays;
 
 import org.springframework.core.annotation.AliasFor;
 
@@ -28,7 +29,7 @@ public @interface UniqueKeys {
     @AliasFor("value")
     String[] keys() default {};
 
-    String message() default "Already exists an {document} with {key}.";
+    String message() default "Already exists an document with unique keys.";
     
     Class<?>[] groups() default {};
     

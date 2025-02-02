@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.github.felipemantoan.user_api.domain.entities.User;
 import com.github.felipemantoan.user_api.infrastructure.adapters.out.database.UserService;
 
-import jakarta.validation.Validator;
 import lombok.extern.log4j.Log4j2;
 
 @Service

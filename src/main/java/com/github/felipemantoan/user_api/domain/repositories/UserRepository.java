@@ -18,8 +18,4 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query("{'deleted': false}")
     public Page<User> findAllNoDeleted(Pageable pageable);
-
-    public boolean existsByCpf(String cpf);
-
-    public boolean existsByEmail(String email);
 }

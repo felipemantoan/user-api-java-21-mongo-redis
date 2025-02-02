@@ -60,17 +60,13 @@ public class UserService {
         repository.disable(id);
     }
 
-    public boolean uniqueEmail(String email) {
-        return repository.existsByEmail(email);
-    }
-
     public User save(User user) {
 
         Set<ConstraintViolation<User>> errors = validator.validate(user);
 
         if (errors.isEmpty()) {
 
-            log.info("UserService#save: Saving user id: {}", user.getId());
+            log.info("UserService#save: Saving user {}", user);
             return repository.save(user);
         }
 

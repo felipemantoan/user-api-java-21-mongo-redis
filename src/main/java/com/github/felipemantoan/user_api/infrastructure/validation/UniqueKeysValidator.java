@@ -4,6 +4,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
 
     private Set<String> keys;
 
+    final private String CONSTRAINT_MESSAGE = "Already exists collection %s with %s.";
+
     public void initialize(UniqueKeys constraintAnnotation) {
         documentId = constraintAnnotation.id();
         mongoId = constraintAnnotation.mongoId();
@@ -42,9 +45,22 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
     }
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {        
-        Map<String, String> properties = mapPropertiesValues(value);
-        return !executeQuery(value.getClass(), properties);
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        final Class<?> classType = value.getClass();
+        final String collectionName = template.getCollectionName(classType);   
+        final Map<String, String> properties = mapPropertiesValues(value);
+
+        boolean hasKeys = hasKeys(collectionName, classType, properties);
+
+        if (hasKeys) {
+            String message = String.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+
+            return false;
+        }
+
+        return true;
     }
 
     private Map<String, String> mapPropertiesValues(Object object) {
@@ -77,9 +93,8 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         return null;
     }
 
-    private boolean executeQuery(Class<?> classType,  Map<String, String> properties) {
-
-        String collectionName = template.getCollectionName(classType);
+    private boolean hasKeys(String collectionName, Class<?> classType, Map<String, String> properties) {
+        
         ExecutableFind<?> executableFind = template.query(classType);
         Criteria orCriteria = new Criteria();
         orCriteria.orOperator(createCriteria(properties));
@@ -87,8 +102,9 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         Query query = new Query(orCriteria);
         boolean exists = executableFind.matching(query).exists();
 
-        log.debug("UniqueKeysValidator#executeQuery: {}", query);
-        log.debug("UniqueKeysValidator#executeQuery: Document collection {} unique exists {}", collectionName, exists);
+        log.debug("UniqueKeysValidator#hasKeys: {}", query);
+        log.debug("UniqueKeysValidator#hasKeys: Document collection {} unique exists {}", collectionName, exists);
+        
         return exists;
     }
 
