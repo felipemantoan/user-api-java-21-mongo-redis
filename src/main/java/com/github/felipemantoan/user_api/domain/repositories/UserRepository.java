@@ -1,8 +1,5 @@
 package com.github.felipemantoan.user_api.domain.repositories;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

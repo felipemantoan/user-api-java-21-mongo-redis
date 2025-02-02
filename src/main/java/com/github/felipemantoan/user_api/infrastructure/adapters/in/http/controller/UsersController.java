@@ -78,11 +78,11 @@ public class UsersController {
     public ResponseEntity<UserResponseDTO> put(@PathVariable("userId") String userId,
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO) throws Exception {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),
-                updateUserRequestDTO.name(), updateUserRequestDTO.phoneNumber())));
+                updateUserRequestDTO.email(), updateUserRequestDTO.phoneNumber())));
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> getAll(@PageableDefault Pageable pageable) {
+    public ResponseEntity<Page<UserResponseDTO>> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
         return ResponseEntity.ok(
             getAllUsersUseCase.execute(pageable).map(userHttpMapper::map)
         );

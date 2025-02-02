@@ -1,19 +1,20 @@
 package com.github.felipemantoan.user_api.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import com.github.felipemantoan.user_api.infrastructure.validation.UniqueKeys;
+
 import org.springframework.data.mongodb.core.mapping.Field.Write;
 
-import br.com.caelum.stella.bean.validation.CPF;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Document(collection = "user")
+@UniqueKeys(keys = {"email", "cpf"})
 @NoArgsConstructor
-public class User{
+public class User {
 
-    @Id
+    @MongoId
     private String id;
     
     @Field("name")
@@ -36,7 +38,6 @@ public class User{
     @NotEmpty
     private String name;
     
-    @CPF
     @Field("cpf")
     @Indexed(unique = true) 
     private String cpf;

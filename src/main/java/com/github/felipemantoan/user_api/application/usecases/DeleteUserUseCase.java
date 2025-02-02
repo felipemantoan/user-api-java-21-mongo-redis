@@ -1,7 +1,5 @@
 package com.github.felipemantoan.user_api.application.usecases;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

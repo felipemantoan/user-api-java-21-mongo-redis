@@ -10,6 +10,7 @@ spring:
       password: ${MONGO_PASS}
       port: ${MONGO_PORT}
       authentication-database: admin
+      auto-index-creation: true
 
     redis:
       # database: 0
