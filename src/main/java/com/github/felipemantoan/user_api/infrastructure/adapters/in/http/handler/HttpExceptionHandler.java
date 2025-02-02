@@ -15,7 +15,7 @@ import com.github.felipemantoan.user_api.domain.exceptions.UserNotFound;
 public class HttpExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFound.class)
-    ProblemDetail handleNumeroNaoInformadoException(UserNotFound e) {
+    ProblemDetail handleUserNotFoundException(UserNotFound e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getLocalizedMessage());
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
         problemDetail.setDetail(e.getMessage());
