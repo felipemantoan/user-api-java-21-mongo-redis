@@ -43,11 +43,11 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {        
-        Map<String, String> properties = mapValues(value);
+        Map<String, String> properties = mapPropertiesValues(value);
         return !executeQuery(value.getClass(), properties);
     }
 
-    private Map<String, String> mapValues(Object object) {
+    private Map<String, String> mapPropertiesValues(Object object) {
         Map<String, String> fieldsValues = new HashMap<String, String>();
 
         for (String fieldName : keys) {
@@ -71,7 +71,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         try {
             return BeanUtils.getSimpleProperty(object, fieldName);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.info("Can't not access {}", fieldName);
+            log.debug("UniqueKeysValidator#extractValue: Cannot be access property {} {}.", object.getClass(), fieldName);
         }
 
         return null;
@@ -87,8 +87,8 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         Query query = new Query(orCriteria);
         boolean exists = executableFind.matching(query).exists();
 
-        log.info("UniqueKeysValidator#executeQuery: {}", query);
-        log.info("UniqueKeysValidator#executeQuery: Document collection {} unique exists {}", collectionName, exists);
+        log.debug("UniqueKeysValidator#executeQuery: {}", query);
+        log.debug("UniqueKeysValidator#executeQuery: Document collection {} unique exists {}", collectionName, exists);
         return exists;
     }
 
