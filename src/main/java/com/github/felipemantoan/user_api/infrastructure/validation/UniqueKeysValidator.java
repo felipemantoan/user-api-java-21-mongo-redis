@@ -96,17 +96,14 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         List<Criteria> criteriaList = new ArrayList<Criteria>();
 
         for (String key : keys) {
+
+            Criteria criteria = where(key).is(properties.get(key));
+            
             if (properties.containsKey(mongoId)) {
-                Criteria fieldWithOtherId = where(mongoId)
-                    .ne(properties.get(mongoId))
-                    .and(key)
-                    .is(properties.get(key));
-                
-                criteriaList.add(fieldWithOtherId);
+                criteria.and(mongoId).ne(properties.get(mongoId));   
             }
-            else {
-                criteriaList.add(where(key).is(properties.get(key)));
-            }
+         
+            criteriaList.add(criteria);
         }
 
         return criteriaList;
