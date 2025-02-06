@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ExecutableFindOperation.ExecutableFind;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -69,14 +69,14 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         for (String fieldName : keys) {
             String value = extractValue(object, fieldName);
             
-            if (!Strings.isBlank(value)) {
+            if (StringUtils.hasText(value)) {
                 fieldsValues.put(fieldName, value);
             }
         }
 
         String idValue = extractValue(object, documentId);
 
-        if (!Strings.isBlank(idValue)) {
+        if (StringUtils.hasText(idValue)) {
             fieldsValues.put(mongoId, idValue);
         }
 
@@ -87,10 +87,10 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         try {
             return BeanUtils.getSimpleProperty(object, fieldName);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.debug("UniqueKeysValidator#extractValue: Cannot be access property {} {}.", object.getClass(), fieldName);
+            log.debug("UniqueKeysValidator#extractValue: Cannot access property {} {}.", object.getClass(), fieldName);
         }
 
-        return null;
+        return "";
     }
 
     private boolean hasKeys(String collectionName, Class<?> classType, Map<String, String> properties) {
