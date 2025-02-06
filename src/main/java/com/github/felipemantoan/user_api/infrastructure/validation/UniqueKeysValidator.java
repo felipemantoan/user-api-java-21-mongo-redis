@@ -49,8 +49,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         final Class<?> classType = value.getClass();
         final String collectionName = template.getCollectionName(classType);   
         final Map<String, String> properties = mapPropertiesValues(value);
-
-        boolean hasKeys = hasKeys(collectionName, classType, properties);
+        final boolean hasKeys = hasKeys(collectionName, classType, properties);
 
         if (hasKeys) {
             String message = String.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
@@ -93,13 +92,18 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         return "";
     }
 
+    /**
+     * Este método verifica se uma lista de propriedades de uma classe se enquadram no conceito de chave unica.
+     * 
+     * @param collectionName Colletion name from document
+     * @param classType Class<?> of Document
+     * @param properties List of properties to verify
+     * @return boolean The keys are in use
+     */
     private boolean hasKeys(String collectionName, Class<?> classType, Map<String, String> properties) {
         
         ExecutableFind<?> executableFind = template.query(classType);
-        Criteria orCriteria = new Criteria();
-        orCriteria.orOperator(createCriteria(properties));
-
-        Query query = new Query(orCriteria);
+        Query query = new Query(exclusiveOrCriteria(properties));
         boolean exists = executableFind.matching(query).exists();
 
         log.debug("UniqueKeysValidator#hasKeys: {}", query);
@@ -108,7 +112,10 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         return exists;
     }
 
-    private List<Criteria> createCriteria(Map<String, String> properties) {
+    private Criteria exclusiveOrCriteria(Map<String, String> properties) {
+
+        Criteria orCriteria = new Criteria();
+
         List<Criteria> criteriaList = new ArrayList<Criteria>();
 
         for (String key : keys) {
@@ -122,7 +129,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
             criteriaList.add(criteria);
         }
 
-        return criteriaList;
+        return orCriteria.orOperator(criteriaList);
     }
     
 }

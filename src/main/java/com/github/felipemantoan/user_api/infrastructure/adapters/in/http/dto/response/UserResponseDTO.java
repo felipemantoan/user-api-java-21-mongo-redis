@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserResponseDTO(
-    @JsonProperty("id") String id,
-    @JsonProperty("name") String name,
-    @JsonProperty("cpf") String cpf,
-    @JsonProperty("email") String email,
-    @JsonProperty("phone_number") String phoneNumber,
-    @JsonProperty("created_at") LocalDateTime createdAt,
-    @JsonProperty("updated_at") LocalDateTime updatedAt
+  @JsonProperty("id") String id,
+  @JsonProperty("name") String name,
+  @JsonProperty("cpf") String cpf,
+  @JsonProperty("email") String email,
+  @JsonProperty("phone_number") String phoneNumber,
+  @JsonProperty("created_at") LocalDateTime createdAt,
+  @JsonProperty("updated_at") LocalDateTime updatedAt
 ) {
 }

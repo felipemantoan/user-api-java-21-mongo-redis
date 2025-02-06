@@ -1,9 +1,6 @@
 package com.github.felipemantoan.user_api.infrastructure.adapters.in.http.controller;
 
 import java.net.URI;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +30,7 @@ import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @Log4j2
 @Validated
 public class UsersController {
@@ -58,8 +55,9 @@ public class UsersController {
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
-        User user = createUserUseCase.execute(userHttpMapper.map(dto));
-        URI uri = URI.create("/users/" + user.getId());
+        final User user = createUserUseCase.execute(userHttpMapper.map(dto));
+        final String uriString = String.format("/api/v1/users/%s", user.getId());
+        final URI uri = URI.create(uriString);
         return ResponseEntity.created(uri).body(userHttpMapper.map(user));
     }
 
@@ -69,7 +67,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> delete(@PathVariable("userId") String userId) {
+    public ResponseEntity<Void> delete(@PathVariable("userId") String userId) {
         deleteUserUseCase.execute(userId);
         return ResponseEntity.noContent().build();
     }
