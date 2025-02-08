@@ -54,7 +54,9 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         if (hasKeys) {
             String message = String.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(message)
+                .addPropertyNode(collectionName)
+                .addConstraintViolation();
 
             return false;
         }

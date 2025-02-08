@@ -8,7 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.felipemantoan.user_api.domain.entities.User;
-import com.github.felipemantoan.user_api.domain.exceptions.UserNotFound;
+import com.github.felipemantoan.user_api.domain.exceptions.UserConstraintValidationException;
+import com.github.felipemantoan.user_api.domain.exceptions.UserNotFoundException;
 import com.github.felipemantoan.user_api.domain.repositories.UserRepository;
 
 import jakarta.validation.ConstraintViolation;
@@ -29,7 +30,7 @@ public class UserService {
         return save(user);
     }
 
-    public User update(String userId, String name, String email, String phoneNumber) throws UserNotFound {
+    public User update(String userId, String name, String email, String phoneNumber) throws UserNotFoundException {
         
         User user = getOne(userId);
 
@@ -52,8 +53,8 @@ public class UserService {
         return repository.findAllNoDeleted(pageable);
     }
 
-    public User getOne(String userId) throws UserNotFound {
-        return repository.findById(userId).orElseThrow(() -> new UserNotFound(userId));
+    public User getOne(String userId) throws UserNotFoundException {
+        return repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     public void delete(String id) {
@@ -70,6 +71,6 @@ public class UserService {
             return repository.save(user);
         }
 
-        throw new RuntimeException(errors.iterator().next().getMessage());
+        throw new UserConstraintValidationException(errors);
     }
 }

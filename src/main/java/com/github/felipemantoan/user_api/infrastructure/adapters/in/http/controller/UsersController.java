@@ -27,6 +27,8 @@ import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.req
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.UserHttpMapper;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
@@ -67,14 +69,14 @@ public class UsersController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> delete(@PathVariable("userId") String userId) {
+    public ResponseEntity<Void> delete(@Valid @NotBlank @PathVariable("userId") String userId) {
         deleteUserUseCase.execute(userId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponseDTO> put(@PathVariable("userId") String userId,
-            @RequestBody UpdateUserRequestDTO updateUserRequestDTO) throws Exception {
+    public ResponseEntity<UserResponseDTO> put(@Valid @NotBlank @PathVariable("userId") String userId,
+            @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),
                 updateUserRequestDTO.email(), updateUserRequestDTO.phoneNumber())));
     }

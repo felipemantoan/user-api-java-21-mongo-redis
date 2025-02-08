@@ -16,6 +16,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Update("{ 'deleted': true }")
     public void disable(String id);
 
-    @Query("{'deleted': false}")
+    @Query("{'deleted': { $ne : true }}")
     public Page<User> findAllNoDeleted(Pageable pageable);
 }
