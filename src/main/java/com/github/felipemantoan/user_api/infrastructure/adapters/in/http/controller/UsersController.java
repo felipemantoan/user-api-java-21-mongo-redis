@@ -25,6 +25,7 @@ import com.github.felipemantoan.user_api.domain.entities.User;
 import com.github.felipemantoan.user_api.domain.exceptions.UserNotFoundException;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.UpdateUserRequestDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.PageableUserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserErrorValidationResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserNotFoundResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
@@ -133,12 +134,12 @@ public class UsersController {
     @Operation(summary = "Retrieves a list of users", description = "Returns a list of users")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved", content = {
-            // @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = PageableUserResponseDTO.class))
         }),
     })
-    public ResponseEntity<Page<UserResponseDTO>> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
+    public ResponseEntity<PageableUserResponseDTO> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
         return ResponseEntity.ok(
-            getAllUsersUseCase.execute(pageable).map(userHttpMapper::map)
+            userHttpMapper.map(getAllUsersUseCase.execute(pageable))
         );
     }
 
