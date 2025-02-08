@@ -27,6 +27,7 @@ import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.req
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.UserHttpMapper;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.log4j.Log4j2;
@@ -35,6 +36,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/api/v1/users")
 @Log4j2
 @Validated
+@Tag(name = "Users", description = "CRUD Operations of User")
 public class UsersController {
 
     @Autowired
