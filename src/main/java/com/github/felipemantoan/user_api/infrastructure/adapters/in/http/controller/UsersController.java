@@ -24,8 +24,15 @@ import com.github.felipemantoan.user_api.application.usecases.UpdateUserUseCase;
 import com.github.felipemantoan.user_api.domain.entities.User;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.UpdateUserRequestDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserErrorValidationResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.UserHttpMapper;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Content;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -58,6 +65,15 @@ public class UsersController {
     private UserHttpMapper userHttpMapper;
 
     @PostMapping
+    @Operation(summary = "Creates a new user", description = "Returns a new user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully created", content = {
+            @Content(schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Bad Request - The user was incorrected filled", content = {
+            @Content(schema = @Schema(type = "object", oneOf = UserErrorValidationResponseDTO.class))
+        }),
+    })
     public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
         final User user = createUserUseCase.execute(userHttpMapper.map(dto));
         final String uriString = String.format("/api/v1/users/%s", user.getId());
