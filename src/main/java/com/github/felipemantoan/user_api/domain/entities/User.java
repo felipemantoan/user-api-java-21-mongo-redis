@@ -2,10 +2,10 @@ package com.github.felipemantoan.user_api.domain.entities;
 
 import java.time.LocalDateTime;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -38,6 +38,7 @@ public class User {
     @NotEmpty
     private String name;
     
+    @CPF
     @Field("cpf")
     @Indexed(unique = true) 
     private String cpf;
