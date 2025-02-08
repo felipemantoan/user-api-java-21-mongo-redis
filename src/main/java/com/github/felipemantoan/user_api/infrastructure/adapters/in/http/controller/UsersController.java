@@ -93,6 +93,15 @@ public class UsersController {
     }
 
     @PutMapping("/{userId}")
+    @Operation(summary = "Updates an existent user", description = "Returns an updated user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated", content = {
+            @Content(schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Bad Request - The user was incorrected filled", content = {
+            @Content(schema = @Schema(type = "object", oneOf = UserErrorValidationResponseDTO.class))
+        }),
+    })
     public ResponseEntity<UserResponseDTO> put(@Valid @NotBlank @PathVariable("userId") String userId,
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),

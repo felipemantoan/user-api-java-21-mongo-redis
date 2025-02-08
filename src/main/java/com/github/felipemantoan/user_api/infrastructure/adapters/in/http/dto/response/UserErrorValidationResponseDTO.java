@@ -6,12 +6,22 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserErrorValidationResponseDTO(
-    @JsonProperty("status") Integer status,
-    @JsonProperty("details") String details,
-    @JsonProperty("errors") List<ErrorValidationResponseDTO> errors,
-    @JsonProperty("timestamp") LocalDateTime timestamp
+    @Schema(name = "status", example = "400")
+    @JsonProperty("status")
+    Integer status,
+    @Schema(name = "details", example = "BAD_REQUEST")
+    @JsonProperty("details")
+    String details,
+    @Schema(name = "errors")
+    @JsonProperty("errors")
+    List<ErrorValidationResponseDTO> errors,
+    @Schema(name = "timestamp")
+    @JsonProperty("timestamp")
+    LocalDateTime timestamp
 ) {
     
 }
