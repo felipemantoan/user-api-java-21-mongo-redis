@@ -35,12 +35,18 @@ public class HttpExceptionHandler extends ResponseEntityExceptionHandler {
 
         e.getErrors().forEach(error -> {
             String property = error.getPropertyPath().toString();
-            String parameter = error.getInvalidValue().toString();
-            
+            String value = error.getInvalidValue().toString();
+
+            log.info("HttpExceptionHandler#handleUserConstraintValidationException: Field {}, Value {}, Message {}",
+                property,
+                value,
+                error.getMessage()
+            );
+
             errors.add(new ErrorValidationResponseDTO(
                 error.getMessage(), 
                 property, 
-                parameter
+                value
             ));
         });
 

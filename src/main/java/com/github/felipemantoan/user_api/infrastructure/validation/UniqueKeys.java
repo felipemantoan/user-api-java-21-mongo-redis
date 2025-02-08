@@ -3,7 +3,6 @@ package com.github.felipemantoan.user_api.infrastructure.validation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.Arrays;
 
 import org.springframework.core.annotation.AliasFor;
 

@@ -22,10 +22,20 @@ import com.github.felipemantoan.user_api.application.usecases.GetAllUsersUseCase
 import com.github.felipemantoan.user_api.application.usecases.GetUserById;
 import com.github.felipemantoan.user_api.application.usecases.UpdateUserUseCase;
 import com.github.felipemantoan.user_api.domain.entities.User;
+import com.github.felipemantoan.user_api.domain.exceptions.UserNotFoundException;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.request.UpdateUserRequestDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.PageableUserResponseDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserErrorValidationResponseDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserNotFoundResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.UserHttpMapper;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Content;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -58,6 +68,15 @@ public class UsersController {
     private UserHttpMapper userHttpMapper;
 
     @PostMapping
+    @Operation(summary = "Creates a new user", description = "Returns a new user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully created", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Bad Request - The user was incorrected filled", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserErrorValidationResponseDTO.class))
+        }),
+    })
     public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
         final User user = createUserUseCase.execute(userHttpMapper.map(dto));
         final String uriString = String.format("/api/v1/users/%s", user.getId());
@@ -66,17 +85,45 @@ public class UsersController {
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "Retrieves an existing user by id", description = "Returns an user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "404", description = "Not found - The user was not found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserNotFoundResponseDTO.class))
+        }),
+    })
     public ResponseEntity<UserResponseDTO> getById(@PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(userHttpMapper.map(getUserById.execute(userId)));
     }
 
     @DeleteMapping("/{userId}")
+    @Operation(summary = "Deletes an existing user by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Successfully deleted"),
+        @ApiResponse(responseCode = "404", description = "Not found - The user was not found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserNotFoundResponseDTO.class))
+        }),
+    })
     public ResponseEntity<Void> delete(@Valid @NotBlank @PathVariable("userId") String userId) {
         deleteUserUseCase.execute(userId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}")
+    @Operation(summary = "Updates an existing user by id", description = "Returns an updated user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Bad Request - The user was incorrected filled", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserErrorValidationResponseDTO.class))
+        }),
+        @ApiResponse(responseCode = "404", description = "Not found - The user was not found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserNotFoundResponseDTO.class))
+        }),
+    })
     public ResponseEntity<UserResponseDTO> put(@Valid @NotBlank @PathVariable("userId") String userId,
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),
@@ -84,9 +131,15 @@ public class UsersController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
+    @Operation(summary = "Retrieves a list of users", description = "Returns a list of users")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = PageableUserResponseDTO.class))
+        }),
+    })
+    public ResponseEntity<PageableUserResponseDTO> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
         return ResponseEntity.ok(
-            getAllUsersUseCase.execute(pageable).map(userHttpMapper::map)
+            userHttpMapper.map(getAllUsersUseCase.execute(pageable))
         );
     }
 
