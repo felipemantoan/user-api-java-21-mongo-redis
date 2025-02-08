@@ -1,9 +1,6 @@
 package com.github.felipemantoan.user_api.infrastructure.adapters.in.http.controller;
 
 import java.net.URI;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +27,16 @@ import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.req
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapters.in.http.mapper.UserHttpMapper;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @Log4j2
 @Validated
+@Tag(name = "Users", description = "CRUD Operations of User")
 public class UsersController {
 
     @Autowired
@@ -58,8 +59,9 @@ public class UsersController {
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
-        User user = createUserUseCase.execute(userHttpMapper.map(dto));
-        URI uri = URI.create("/users/" + user.getId());
+        final User user = createUserUseCase.execute(userHttpMapper.map(dto));
+        final String uriString = String.format("/api/v1/users/%s", user.getId());
+        final URI uri = URI.create(uriString);
         return ResponseEntity.created(uri).body(userHttpMapper.map(user));
     }
 
@@ -69,14 +71,14 @@ public class UsersController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> delete(@PathVariable("userId") String userId) {
+    public ResponseEntity<Void> delete(@Valid @NotBlank @PathVariable("userId") String userId) {
         deleteUserUseCase.execute(userId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponseDTO> put(@PathVariable("userId") String userId,
-            @RequestBody UpdateUserRequestDTO updateUserRequestDTO) throws Exception {
+    public ResponseEntity<UserResponseDTO> put(@Valid @NotBlank @PathVariable("userId") String userId,
+            @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         return ResponseEntity.ok(userHttpMapper.map(updateUserUseCase.execute(userId, updateUserRequestDTO.name(),
                 updateUserRequestDTO.email(), updateUserRequestDTO.phoneNumber())));
     }

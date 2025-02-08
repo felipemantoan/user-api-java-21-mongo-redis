@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ExecutableFindOperation.ExecutableFind;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -49,13 +49,14 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         final Class<?> classType = value.getClass();
         final String collectionName = template.getCollectionName(classType);   
         final Map<String, String> properties = mapPropertiesValues(value);
-
-        boolean hasKeys = hasKeys(collectionName, classType, properties);
+        final boolean hasKeys = hasKeys(collectionName, classType, properties);
 
         if (hasKeys) {
             String message = String.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(message)
+                .addPropertyNode(collectionName)
+                .addConstraintViolation();
 
             return false;
         }
@@ -69,14 +70,14 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         for (String fieldName : keys) {
             String value = extractValue(object, fieldName);
             
-            if (!Strings.isBlank(value)) {
+            if (StringUtils.hasText(value)) {
                 fieldsValues.put(fieldName, value);
             }
         }
 
         String idValue = extractValue(object, documentId);
 
-        if (!Strings.isBlank(idValue)) {
+        if (StringUtils.hasText(idValue)) {
             fieldsValues.put(mongoId, idValue);
         }
 
@@ -87,19 +88,24 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         try {
             return BeanUtils.getSimpleProperty(object, fieldName);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.debug("UniqueKeysValidator#extractValue: Cannot be access property {} {}.", object.getClass(), fieldName);
+            log.debug("UniqueKeysValidator#extractValue: Cannot access property {} {}.", object.getClass(), fieldName);
         }
 
-        return null;
+        return "";
     }
 
+    /**
+     * Este método verifica se uma lista de propriedades de uma classe se enquadram no conceito de chave unica.
+     * 
+     * @param collectionName Colletion name from document
+     * @param classType Class<?> of Document
+     * @param properties List of properties to verify
+     * @return boolean The keys are in use
+     */
     private boolean hasKeys(String collectionName, Class<?> classType, Map<String, String> properties) {
         
         ExecutableFind<?> executableFind = template.query(classType);
-        Criteria orCriteria = new Criteria();
-        orCriteria.orOperator(createCriteria(properties));
-
-        Query query = new Query(orCriteria);
+        Query query = new Query(exclusiveOrCriteria(properties));
         boolean exists = executableFind.matching(query).exists();
 
         log.debug("UniqueKeysValidator#hasKeys: {}", query);
@@ -108,7 +114,10 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         return exists;
     }
 
-    private List<Criteria> createCriteria(Map<String, String> properties) {
+    private Criteria exclusiveOrCriteria(Map<String, String> properties) {
+
+        Criteria orCriteria = new Criteria();
+
         List<Criteria> criteriaList = new ArrayList<Criteria>();
 
         for (String key : keys) {
@@ -122,7 +131,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
             criteriaList.add(criteria);
         }
 
-        return criteriaList;
+        return orCriteria.orOperator(criteriaList);
     }
     
 }
