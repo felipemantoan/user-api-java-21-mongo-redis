@@ -23,6 +23,7 @@ public class HttpExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     ResponseEntity<UserNotFoundResponseDTO> handleUserNotFoundException(UserNotFoundException e) {
+        log.info("HttpExceptionHandler#handleUserNotFoundException: {}", e.getMessage());
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(new UserNotFoundResponseDTO(HttpStatus.NOT_FOUND.value(), e.getMessage(), LocalDateTime.now()));

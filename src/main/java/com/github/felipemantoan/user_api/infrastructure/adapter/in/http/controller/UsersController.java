@@ -77,11 +77,14 @@ public class UsersController {
             @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = UserErrorValidationResponseDTO.class))
         }),
     })
-    public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO dto) {
-        final User user = createUserUseCase.execute(userHttpMapper.map(dto));
+    public ResponseEntity<UserResponseDTO> create(@RequestBody CreateUserRequestDTO userRequestDTO) {
+        log.info("UsersController#create: Request {}", userRequestDTO);
+        final User user = createUserUseCase.execute(userHttpMapper.map(userRequestDTO));
         final String uriString = String.format("/api/v1/users/%s", user.getId());
         final URI uri = URI.create(uriString);
-        return ResponseEntity.created(uri).body(userHttpMapper.map(user));
+        final UserResponseDTO userResponseDTO = userHttpMapper.map(user);
+        log.info("UsersController#create: Response {}", userResponseDTO);
+        return ResponseEntity.created(uri).body(userResponseDTO);
     }
 
     @GetMapping("/{userId}")
