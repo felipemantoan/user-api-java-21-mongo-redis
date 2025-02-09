@@ -12,7 +12,7 @@ import com.github.felipemantoan.user_api.domain.entity.User;
 
 @Repository
 @RepositoryRestResource(exported = false)
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserMongoRepository extends MongoRepository<User, String> {
     
     @Query("{'_id' : ?0, 'deleted': false }")
     @Update("{ 'deleted': true }")

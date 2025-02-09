@@ -2,13 +2,13 @@ package com.github.felipemantoan.user_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+@EnableCaching
 @SpringBootApplication
 @EnableMongoRepositories
-@EnableRedisRepositories
 @EnableMongoAuditing
 public class UserApiApplication {
 

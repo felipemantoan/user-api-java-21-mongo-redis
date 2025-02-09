@@ -1,5 +1,6 @@
 package com.github.felipemantoan.user_api.domain.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
@@ -28,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "user")
 @UniqueKeys(keys = {"email", "cpf"})
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
 
     @MongoId
     private String id;
