@@ -10,10 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserErrorValidationResponseDTO(
-    @Schema(name = "status", example = "400")
+    @Schema(name = "status", examples = {"400"})
     @JsonProperty("status")
     Integer status,
-    @Schema(name = "details", example = "BAD_REQUEST")
+    @Schema(name = "details", examples = {"BAD_REQUEST"})
     @JsonProperty("details")
     String details,
     @Schema(name = "errors")

@@ -7,13 +7,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ErrorValidationResponseDTO(
-    @Schema(name = "message", example = "must be a well-formed email address")
+    @Schema(name = "message", examples = {"must be a well-formed email address"})
     @JsonProperty("message")
     String message,
-    @Schema(name = "field", example = "email")
+    @Schema(name = "field", examples = {"email"})
     @JsonProperty("field")
     String field,
-    @Schema(name = "value", example = "email#email.com")
+    @Schema(name = "value", examples = {"email#email.com"})
     @JsonProperty("value")
     String value
 ) {

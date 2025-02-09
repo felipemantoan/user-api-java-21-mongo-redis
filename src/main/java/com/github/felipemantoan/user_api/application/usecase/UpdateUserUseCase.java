@@ -11,7 +11,7 @@ public class UpdateUserUseCase {
     
     @Autowired private UserService service;
 
-    public User execute(String userId, String name, String email, String phoneNumber){
+    public User execute(String userId, String name, String email, String phoneNumber) {
         return service.update(userId, name, email, phoneNumber);
     }
 }

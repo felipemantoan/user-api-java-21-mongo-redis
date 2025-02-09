@@ -8,15 +8,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record CreateUserRequestDTO(
     @JsonProperty("name")
-    @Schema(name = "name", example = "Ronaldo Nazario", required = true)
+    @Schema(name = "name", examples = {"Ronaldo Nazario"}, required = true)
     String name,
     @JsonProperty("cpf")
-    @Schema(name = "cpf", example = "52414147890", required = true)
+    @Schema(name = "cpf", examples = {"52414147890"}, required = true)
     String cpf,
     @JsonProperty("email")
-    @Schema(name = "email", example = "email@email.com", required = true)
+    @Schema(name = "email", examples = {"email@email.com"}, required = true)
     String email,
-    @Schema(name = "phone_number", example = "19999998888", required = true)
+    @Schema(name = "phone_number", examples = {"19999998888"}, required = true)
     @JsonProperty("phone_number")
     String phoneNumber
 ) {

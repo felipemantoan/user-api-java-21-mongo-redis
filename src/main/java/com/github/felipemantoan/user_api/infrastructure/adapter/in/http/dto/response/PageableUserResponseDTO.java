@@ -10,28 +10,28 @@ public record PageableUserResponseDTO(
     @Schema(name = "_content")
     @JsonProperty("_content")
     List<UserResponseDTO> content,
-    @Schema(name = "total_pages", example = "1")
+    @Schema(name = "total_pages", examples = {"1"})
     @JsonProperty("total_pages")
     int totalPages,
-    @Schema(name = "total_elements", example = "20")
+    @Schema(name = "total_elements", examples = {"20"})
     @JsonProperty("total_elements")
     int totalElements,
-    @Schema(name = "last", example = "false")
+    @Schema(name = "last", examples = {"false"})
     @JsonProperty("last")
     boolean last,
-    @Schema(name = "first", example = "true")
+    @Schema(name = "first", examples = {"true"})
     @JsonProperty("first")
     boolean first,
-    @Schema(name = "size", example = "100")
+    @Schema(name = "size", examples = {"100"})
     @JsonProperty("size")
     int size,
-    @Schema(name = "number", example = "2")
+    @Schema(name = "number", examples = {"2"})
     @JsonProperty("number")
     int number,
-    @Schema(name = "number_elements", example = "100")
+    @Schema(name = "number_elements", examples = {"100"})
     @JsonProperty("number_elements")
     int numberOfElements,
-    @Schema(name = "empty", example = "false")
+    @Schema(name = "empty", examples = {"false"})
     @JsonProperty("empty")
     boolean empty
 ) {
