@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.felipemantoan.user_api.application.usecase.CreateUserUseCase;
 import com.github.felipemantoan.user_api.application.usecase.DeleteUserUseCase;
 import com.github.felipemantoan.user_api.application.usecase.GetAllUsersUseCase;
-import com.github.felipemantoan.user_api.application.usecase.GetUserById;
+import com.github.felipemantoan.user_api.application.usecase.GetUserByIdUseCase;
 import com.github.felipemantoan.user_api.application.usecase.UpdateUserUseCase;
 import com.github.felipemantoan.user_api.domain.entity.User;
 import com.github.felipemantoan.user_api.domain.exception.UserNotFoundException;
@@ -56,7 +56,7 @@ public class UsersController {
     private GetAllUsersUseCase getAllUsersUseCase;
 
     @Autowired
-    private GetUserById getUserById;
+    private GetUserByIdUseCase getUserById;
 
     @Autowired
     private DeleteUserUseCase deleteUserUseCase;
