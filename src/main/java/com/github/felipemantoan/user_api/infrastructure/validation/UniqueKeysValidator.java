@@ -3,6 +3,7 @@ package com.github.felipemantoan.user_api.infrastructure.validation;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
 
     private Set<String> keys;
 
-    final private String CONSTRAINT_MESSAGE = "Already exists collection %s with %s.";
+    final private String CONSTRAINT_MESSAGE = "Already exists collection {0} with {1}.";
 
     public void initialize(UniqueKeys constraintAnnotation) {
         documentId = constraintAnnotation.id();
@@ -52,7 +53,7 @@ public class UniqueKeysValidator implements ConstraintValidator<UniqueKeys, Obje
         final boolean hasKeys = hasKeys(collectionName, classType, properties);
 
         if (hasKeys) {
-            String message = String.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
+            String message = MessageFormat.format(CONSTRAINT_MESSAGE, collectionName, Arrays.toString(keys.toArray()));
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(message)
                 .addPropertyNode(collectionName)
