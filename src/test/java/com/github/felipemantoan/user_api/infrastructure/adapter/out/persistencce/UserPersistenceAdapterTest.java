@@ -30,7 +30,12 @@ public class UserPersistenceAdapterTest {
     @Test
     public void testSaveUser() {
         when(userMongoAdapter.save(any(User.class))).then(called -> called.getArguments()[0]);
-        User user = User.builder().build();
+        User user = User.builder()
+            .name("Felipe")
+            .email("email@email.com")
+            .phoneNumber("1140028922")
+            .cpf("12345678909")
+            .build();
         userPersistenceAdapter.save(user);
         verify(userMongoAdapter).save(any(User.class));
     }
