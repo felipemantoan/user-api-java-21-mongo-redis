@@ -25,6 +25,7 @@ import com.github.felipemantoan.user_api.application.port.in.UpdateUserPort;
 import com.github.felipemantoan.user_api.domain.entity.User;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.controller.UsersController;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.CreateUserRequestDTO;
+import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.UpdateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.UserResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.mapper.UserHttpMapper;
 
@@ -85,6 +86,38 @@ public class UsersControllerTest {
         verify(userHttpMapper).map(any(CreateUserRequestDTO.class));
         verify(createUserPort).execute(any(User.class));
         verify(userHttpMapper).map(any(User.class));
+    }
+
+    @Test
+    public void testPut() {
+        User user = User.builder().build();
+        UpdateUserRequestDTO updateUserRequestDTO = new UpdateUserRequestDTO(
+            "dino",
+            "email@email",
+            "12345098760"
+        );
+
+        UserResponseDTO responseDTO = new UserResponseDTO(
+            ObjectId.get().toString(),
+            "dino", 
+            "12345678909", 
+            "email@email.com", 
+            "12345098760", 
+            LocalDateTime.now(), 
+            LocalDateTime.now()
+        );
+
+        when(updateUserPort.execute(anyString(), anyString(), anyString(), anyString())).thenReturn(user);
+        when(userHttpMapper.map(user)).thenReturn(responseDTO);
+
+        ResponseEntity<UserResponseDTO> response = controller.put(ObjectId.get().toString(), updateUserRequestDTO);
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(responseDTO, response.getBody());
+
+        verify(updateUserPort).execute(anyString(), anyString(), anyString(), anyString());
+        verify(userHttpMapper).map(any(User.class));
+
     }
 
     @Test
