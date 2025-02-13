@@ -4,8 +4,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-
 import com.github.felipemantoan.user_api.application.port.in.CreateUserPort;
 import com.github.felipemantoan.user_api.application.port.out.database.UserServiceDatabasePort;
 import com.github.felipemantoan.user_api.domain.entity.User;
