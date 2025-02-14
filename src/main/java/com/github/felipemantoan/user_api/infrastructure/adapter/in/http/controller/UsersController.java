@@ -2,7 +2,6 @@ package com.github.felipemantoan.user_api.infrastructure.adapter.in.http.control
 
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.felipemantoan.user_api.application.usecase.CreateUserUseCase;
-import com.github.felipemantoan.user_api.application.usecase.DeleteUserUseCase;
-import com.github.felipemantoan.user_api.application.usecase.GetAllUsersUseCase;
-import com.github.felipemantoan.user_api.application.usecase.GetUserByIdUseCase;
-import com.github.felipemantoan.user_api.application.usecase.UpdateUserUseCase;
+import com.github.felipemantoan.user_api.application.port.in.CreateUserPort;
+import com.github.felipemantoan.user_api.application.port.in.DeleteUserPort;
+import com.github.felipemantoan.user_api.application.port.in.GetAllUsersPort;
+import com.github.felipemantoan.user_api.application.port.in.GetUserByIdPort;
+import com.github.felipemantoan.user_api.application.port.in.UpdateUserPort;
 import com.github.felipemantoan.user_api.domain.entity.User;
-import com.github.felipemantoan.user_api.domain.exception.UserNotFoundException;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.UpdateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.PageableUserResponseDTO;
@@ -50,19 +48,19 @@ import lombok.extern.log4j.Log4j2;
 public class UsersController {
 
     @Autowired
-    private CreateUserUseCase createUserUseCase;
+    private CreateUserPort createUserUseCase;
 
     @Autowired
-    private GetAllUsersUseCase getAllUsersUseCase;
+    private GetAllUsersPort getAllUsersUseCase;
 
     @Autowired
-    private GetUserByIdUseCase getUserById;
+    private GetUserByIdPort getUserById;
 
     @Autowired
-    private DeleteUserUseCase deleteUserUseCase;
+    private DeleteUserPort deleteUserUseCase;
 
     @Autowired
-    private UpdateUserUseCase updateUserUseCase;
+    private UpdateUserPort updateUserUseCase;
 
     @Autowired
     private UserHttpMapper userHttpMapper;

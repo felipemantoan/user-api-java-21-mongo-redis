@@ -13,7 +13,6 @@ import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,6 @@ import com.github.felipemantoan.user_api.domain.exception.UserConstraintValidati
 import com.github.felipemantoan.user_api.domain.exception.UserNotFoundException;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.UserErrorValidationResponseDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.UserNotFoundResponseDTO;
-import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.handler.HttpExceptionHandler;
-
 import jakarta.validation.ConstraintViolation;
 
 @ExtendWith(MockitoExtension.class)
