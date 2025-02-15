@@ -16,14 +16,12 @@ spring:
       redis:
         time-to-live: 300
     redis:
-      # database: 0
-      host: localhost
-      port: 6379
-      # password: mypass
-      timeout: 60000
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      timeout: ${REDIS_TIMEOUT}
 logging:
   level:
-    root: DEBUG
+    root: ${LOG_LEVEL:DEBUG}
   org:
     springframework:
-      cache: TRACE
+      cache: ${LOG_LEVEL:TRACE}
