@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.felipemantoan.user_api.application.port.out.database.UserServiceDatabasePort;
 import com.github.felipemantoan.user_api.domain.entity.User;
+import com.github.felipemantoan.user_api.domain.exception.UserNotFoundException;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintViolation;
@@ -65,6 +66,20 @@ public class UpdateUserUseCaseTest {
         verify(port).save(any(User.class));
         verify(port).getOne(anyString());
         verify(validator).validate(any(User.class));
+    }
+
+    @Test
+    public void testExecuteUserNotFound() {
+
+        when(port.getOne(anyString())).thenReturn(Optional.empty());
+
+        String userId = ObjectId.get().toString();
+
+        Assertions.assertThrows(UserNotFoundException.class, () -> {
+            useCase.execute(userId, "Felipe", "felipe@email.com", "1977778888");
+        });
+
+        verify(port).getOne(anyString());
     }
 
 }
