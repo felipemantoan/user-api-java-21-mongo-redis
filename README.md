@@ -1,4 +1,6 @@
-# Teste para analista desenvolvedor
+# Teste para analista desenvolvedor 
+
+[![codecov](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis/graph/badge.svg?token=V8A35IRJEO)](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis)
 
 Olá, obrigado pelo interesse em fazer parte da nossa equipe.  
 
