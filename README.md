@@ -2,7 +2,7 @@
 
 [![codecov](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis/graph/badge.svg?token=V8A35IRJEO)](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis)
 
-Olá, obrigado pelo interesse em fazer parte da nossa equipe.  
+Olá, obrigado pelo interesse em fazer parte da nossa equipe.
 
 O objetivo deste teste é verificar (até certo ponto) suas habilidades de codificação e arquitetura. Para isso você receberá um problema simples onde poderá mostrar suas técnicas de desenvolvimento.
 
