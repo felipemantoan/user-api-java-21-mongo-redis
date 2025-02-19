@@ -15,8 +15,7 @@ jobs:
         run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       - name: Run tests and collect coverage
         run: mvn -B test
-      - name: Upload coverage reports to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: felipemantoan/user-api-java-21-mongo-redis
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
