@@ -1,6 +1,9 @@
 package com.github.felipemantoan.user_api.infrastructure.validation;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,20 +16,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class UniqueKeysValidatorTest {
 
     @Mock
-    private UniqueKeys uniqueKeys;
+    private UniqueKeys annotation;
 
     @InjectMocks
     private UniqueKeysValidator validator;
 
     @BeforeEach
     public void beforeTest() {
-        when(uniqueKeys.id()).thenReturn("id");
-        when(uniqueKeys.mongoId()).thenReturn("_id");
 
+        String[] keys = {"email", "username"};
+
+        when(annotation.id()).thenReturn("id");
+        when(annotation.mongoId()).thenReturn("_id");
+        when(annotation.keys()).thenReturn(keys);
     }
 
     @Test
-    public void testUniqueKeysValidator() {
-
+    public void testUniqueKeysValidatorInitialize() {
+        validator.initialize(annotation);
+        verify(annotation).id();
+        verify(annotation).mongoId();
+        verify(annotation).keys();
     }
 }
