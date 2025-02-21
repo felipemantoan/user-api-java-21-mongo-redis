@@ -40,7 +40,7 @@ public class UserPersistenceAdapter implements UserServiceDatabasePort {
         adapter.disable(id);
     }
 
-    @CachePut(value = "USERS")
+    @CachePut(value = "USERS", key = "#user.id")
     @Override
     public User save(User user) {
         log.info("UserServiceDatabasePort#save: Saved user {}", user);
