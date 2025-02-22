@@ -46,13 +46,11 @@ Para executá-los é fácil, acesse o diretório `user-api` e execute o comando:
 
 ## Requisitos das aplicação:
 
-Nós desejamos que você crie 2 aplicação básicas (microserviços) que comuniquem-se entre si.
-
-O primeiro deles deverá ser um cadastro de usuários, contendo os seguintes recursos:
+Nós desejamos que você crie uma aplicação básica (microserviço) este deverá ser um cadastro de usuários, contendo os seguintes recursos:
 
 - Listar, exibir, criar, alterar e excluir usuários  
 
-Tabela de usuários `user` deverá conter os campos: id, name, cpf, email, phone_number, created_at, updated_at  
+Coleção de usuários `user` deverá conter os campos: id, name, cpf, email, phone_number, created_at, updated_at  
 
 Lembre-se de fazer a comunicação necessária entre os serviços para garantir a consistência de dados.  
 
