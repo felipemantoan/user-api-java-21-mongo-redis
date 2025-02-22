@@ -36,6 +36,9 @@ jobs:
           MONGO_USER: "root"
           MONGO_PASS: "github"
           MONGO_PORT: "27017"
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+          REDIS_TIMEOUT: 60000
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
