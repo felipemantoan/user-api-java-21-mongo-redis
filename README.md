@@ -1,6 +1,9 @@
 # Teste para analista desenvolvedor 
 
-[![codecov](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis/graph/badge.svg?token=V8A35IRJEO)](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis) 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=coverage)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
+[![codecov](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis/graph/badge.svg?token=V8A35IRJEO)](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=bugs)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat&logo=githubactions&logoColor=white) 
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=flat&logo=redis&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=flat&logo=spring&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white) ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=flat&logo=swagger&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)
 
