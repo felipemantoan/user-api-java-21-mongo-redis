@@ -1,8 +1,8 @@
 name: GitHub Actions Continuous Integration
-run-name: ${{ github.actor }} starts Continuous Integration 🚀
+run-name: ${{ github.actor }} starts CI 🚀
 on: [push]
 jobs:
-  Main-Continuous-Integration:
+  Tests:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -15,8 +15,8 @@ jobs:
           distribution: 'graalvm' # See 'Supported distributions' for available options
       - name: Install dependencies
         run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-      - name: Run tests and collect coverage
-        run: mvn -B test -Djunit.jupiter.execution.parallel.enabled=true -Djunit.jupiter.execution.parallel.mode.default=concurrent
+      - name: Run unit tests and collect coverage
+        run: mvn -B test -Djunit.jupiter.execution.parallel.enabled=true -Djunit.jupiter.execution.parallel.mode.default=concurrent   
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
@@ -26,5 +26,4 @@ jobs:
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # or https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }} # Put the name of your token here
-      - name: Build native binary
-        run: mvn -Pnative native:compile -DskipTests
+

@@ -1,21 +1,20 @@
-package com.github.felipemantoan.cucumber.definitions;
+package com.github.felipemantoan.user_api.cucumber.definitions;
 
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.github.felipemantoan.user_api.UserApiApplication;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 @SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = {
-        UserApiApplication.class
-    }
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 public class DefaultDefinition {
     
+    @LocalServerPort
+    private int port;
+
     @Given("I created a new user")
     public void i_created_a_new_user() {
         // Write code here that turns the phrase above into concrete actions
