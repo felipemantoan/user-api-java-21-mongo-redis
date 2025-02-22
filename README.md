@@ -1,6 +1,6 @@
 # Teste para analista desenvolvedor 
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=coverage)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=coverage)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis) 
 [![codecov](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis/graph/badge.svg?token=V8A35IRJEO)](https://codecov.io/gh/felipemantoan/user-api-java-21-mongo-redis)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=felipemantoan_user-api-java-21-mongo-redis&metric=bugs)](https://sonarcloud.io/summary/new_code?id=felipemantoan_user-api-java-21-mongo-redis)
