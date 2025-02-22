@@ -2,11 +2,18 @@ package com.github.felipemantoan.cucumber.definitions;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.github.felipemantoan.user_api.UserApiApplication;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    classes = {
+        UserApiApplication.class
+    }
+)
 public class DefaultDefinition {
     
     @Given("I created a new user")
