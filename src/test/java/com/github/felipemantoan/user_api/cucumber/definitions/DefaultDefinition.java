@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,8 @@ public class DefaultDefinition {
     
     @LocalServerPort
     private int port;
+
+    private Integer totalSaved = -1;
 
     private String latestUserId;
 
@@ -91,11 +94,13 @@ public class DefaultDefinition {
     }
 
     @Given("I created a new user with:")
+    @Given("I created a list of users with:")
     public void i_created_a_new_user_with(DataTable datatable) {
         
         List<Map<String, String>> table = datatable.asMaps(String.class, String.class);
         
         table.forEach(userMap -> i_created_a_new_user_with_map(userMap));
+        totalSaved = table.size();
     }
     
     @Given("I created a new user")
@@ -106,13 +111,23 @@ public class DefaultDefinition {
     @When("I see a user created")
     @When("I see a user updated")
     public void i_see_a_user_created_or_updated() {
+        i_count_total_of_users_saved(1);
         Assertions.assertTrue(storage.containsKey(latestUserId));
     }
 
     @Then("I should be user field {string} filled with {string}")
     public void i_should_be_user_field_filled_with_value(String field, String value) {
-        Map<String, String> user = storage.get(latestUserId);
 
+        List<Map<String, String>> filteredList = storage.values().stream().filter(user -> {
+            log.info("Field: {}, Value: {}, User: {}", field, value, user);
+            return user.containsKey(field) && user.get(field).equals(value);
+        }).collect(Collectors.toList());
+
+        if (filteredList.isEmpty()) {
+            throw new RuntimeException(MessageFormat.format("User with field: {0} with value: {1} not found!", field, value));
+        }
+
+        Map<String, String> user = filteredList.getFirst();
         Assertions.assertTrue(user.containsKey(field));
         Assertions.assertEquals(value, user.get(field));
     }
@@ -151,6 +166,7 @@ public class DefaultDefinition {
     public void i_update_created_user_with(DataTable datatable) {
         List<Map<String, String>> table = datatable.asMaps(String.class, String.class);
         table.forEach(userMap -> i_update_created_user_with_map(latestUserId, userMap));
+        totalSaved = table.size();
     }
 
     @Given("I delete latest created user")
@@ -182,6 +198,11 @@ public class DefaultDefinition {
             .then()
             .assertThat()
             .statusCode(404);
+    }
+
+    @When("I count total of {int} users created")
+    public void i_count_total_of_users_saved(int total) {
+        Assertions.assertEquals(total, totalSaved);
     }
 
 }
