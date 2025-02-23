@@ -200,7 +200,7 @@ public class DefaultDefinition {
             .statusCode(404);
     }
 
-    @When("I count total of {int} users created")
+    @When("I count total of {int} users saved")
     public void i_count_total_of_users_saved(int total) {
         Assertions.assertEquals(total, totalSaved);
     }
