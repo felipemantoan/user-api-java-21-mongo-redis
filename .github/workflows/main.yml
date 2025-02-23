@@ -41,6 +41,7 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: "6379"
           REDIS_TIMEOUT: "60000"
+          LOG_LEVEL: ERROR
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
