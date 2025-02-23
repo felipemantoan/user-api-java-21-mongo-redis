@@ -1,13 +1,6 @@
 package com.github.felipemantoan.user_api;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collector;
-
-import com.ibm.icu.text.MessageFormat;
-
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

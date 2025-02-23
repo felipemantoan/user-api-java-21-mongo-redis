@@ -164,7 +164,6 @@ public class DefaultDefinition {
             .assertThat()
             .statusCode(204);
 
-        Thread.sleep(5000);
         storage.remove(latestUserId);
     }
 
