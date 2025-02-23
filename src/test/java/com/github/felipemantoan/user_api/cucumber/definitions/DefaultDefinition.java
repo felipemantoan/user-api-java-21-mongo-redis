@@ -2,6 +2,7 @@ package com.github.felipemantoan.user_api.cucumber.definitions;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -11,19 +12,17 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.github.felipemantoan.user_api.RandomCpfUtil;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.CreateUserRequestDTO;
-import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.UserResponseDTO;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.serenitybdd.rest.SerenityRest;
 
@@ -38,27 +37,35 @@ public class DefaultDefinition {
 
     private String latestUserId;
 
-    private Map<String, UserResponseDTO> storage;
+    private Map<String, Map<String, String>> storage;
 
     @Before
     public void initialize() {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
         RestAssured.basePath = "/api/v1/users";
-        storage = new HashMap<String, UserResponseDTO>();
+        storage = new HashMap<String, Map<String, String>>();
     }
 
-    @Given("I created a new user")
-    public void i_created_a_new_user() {
-
+    private void i_created_a_new_user_with_map(Map<String, String> map) {
         Random random = new Random();
 
-        // Deixar este trecho dinamico
+        String name = map.getOrDefault("name", "Walter White");
+        String cpf = map.getOrDefault("cpf", RandomCpfUtil.cpf());
+        String email = map.getOrDefault("email", MessageFormat.format(
+                "luis.{0}.test.{1}@infityWar.com", 
+                random.nextInt(100), 
+                random.nextInt(1000)
+            )
+        );
+
+        String phoneNumber = map.getOrDefault("phone_number", "19988887333");
+
         CreateUserRequestDTO requestDTO = new CreateUserRequestDTO(
-            "Walter White",
-            RandomCpfUtil.cpf(),
-            MessageFormat.format("luis.test.{0}@infityWar.com", random.nextInt(100)),
-            "19988887333"
+            name,
+            cpf,
+            email,
+            phoneNumber
         );
 
         RequestSpecification request = SerenityRest.given().contentType(ContentType.JSON);
@@ -66,20 +73,33 @@ public class DefaultDefinition {
         
         response.then().assertThat().statusCode(201);
         
-        UserResponseDTO responseDTO = response.getBody().as(UserResponseDTO.class);
+        Map<String, String> user = response.getBody().as(new TypeRef<Map<String, String>>() { });
         
-        Assertions.assertNotNull(responseDTO.id());
-        Assertions.assertNotNull(responseDTO.createdAt());
-        Assertions.assertNotNull(responseDTO.updatedAt());
+        Assertions.assertNotNull(user.get("id"));
+        Assertions.assertNotNull(user.get("created_at"));
+        Assertions.assertNotNull(user.get("updated_at"));
 
-        Assertions.assertEquals(requestDTO.name(), responseDTO.name());
-        Assertions.assertEquals(requestDTO.cpf(), responseDTO.cpf());
-        Assertions.assertEquals(requestDTO.email(), responseDTO.email());
-        Assertions.assertEquals(requestDTO.phoneNumber(), responseDTO.phoneNumber());
+        Assertions.assertEquals(requestDTO.name(), user.get("name"));
+        Assertions.assertEquals(requestDTO.cpf(), user.get("cpf"));
+        Assertions.assertEquals(requestDTO.email(), user.get("email"));
+        Assertions.assertEquals(requestDTO.phoneNumber(), user.get("phone_number"));
         
-        latestUserId = responseDTO.id();
+        latestUserId = user.get("id");
 
-        storage.put(latestUserId, responseDTO);
+        storage.put(latestUserId, user);
+    }
+
+    @Given("I created a new user with:")
+    public void i_created_a_new_user_with(DataTable datatable) {
+        
+        List<Map<String, String>> table = datatable.asMaps(String.class, String.class);
+        
+        table.forEach(userMap -> i_created_a_new_user_with_map(userMap));
+    }
+    
+    @Given("I created a new user")
+    public void i_created_a_new_user() {
+        i_created_a_new_user_with_map(Map.of());
     }
 
     @When("I see a user created")
@@ -87,11 +107,12 @@ public class DefaultDefinition {
         Assertions.assertTrue(storage.containsKey(latestUserId));
     }
 
-    @Then("I should be cpf filled")
-    public void i_should_be_cpf_filled() {
-        // Write code here that turns the phrase above into concrete actions
-        // throw new io.cucumber.java.PendingException();
-    }
+    @Then("I should be {string} filled with {string}")
+    public void i_should_be_field_filled_with_value(String field, String value) {
+        Map<String, String> user = storage.get(latestUserId);
 
+        Assertions.assertTrue(user.containsKey(field));
+        Assertions.assertEquals(value, user.get(field));
+    }
 
 }
