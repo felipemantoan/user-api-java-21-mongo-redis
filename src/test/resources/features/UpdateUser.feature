@@ -1,4 +1,4 @@
-Feature: Create a new user
+Feature: Updates existing user
   I need a update user account
 
   Background: 

@@ -23,7 +23,7 @@ public class UserPersistenceAdapter implements UserServiceDatabasePort {
 
     @Override
     public Page<User> getAll(Pageable pageable) {
-        return adapter.findAllNoDeleted(pageable);
+        return adapter.findAll(pageable);
     }
 
     @Cacheable(value = "USERS")
@@ -37,7 +37,7 @@ public class UserPersistenceAdapter implements UserServiceDatabasePort {
     @Override
     public void delete(String id) {
         log.info("UserServiceDatabasePort#save: Disabled user by id {}", id);
-        adapter.disable(id);
+        adapter.deleteById(id);
     }
 
     @CachePut(value = "USERS", key = "#user.id")

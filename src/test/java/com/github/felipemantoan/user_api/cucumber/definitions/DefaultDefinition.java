@@ -153,4 +153,36 @@ public class DefaultDefinition {
         table.forEach(userMap -> i_update_created_user_with_map(latestUserId, userMap));
     }
 
+    @Given("I delete latest created user")
+    public void i_delete_latest_created_user() throws InterruptedException {
+        SerenityRest
+            .given()
+            .contentType(ContentType.JSON)
+            .when()
+            .delete("/{id}", latestUserId)
+            .then()
+            .assertThat()
+            .statusCode(204);
+
+        Thread.sleep(5000);
+        storage.remove(latestUserId);
+    }
+
+    @When("I can't see a user deleted")
+    public void i_can_t_see_a_user_deleted() {
+        Assertions.assertFalse(storage.containsKey(latestUserId));
+    }
+
+    @Then("I can't get a user")
+    public void i_can_t_get_a_user() {
+        SerenityRest
+            .given()
+            .contentType(ContentType.JSON)
+            .when()
+            .get("/{id}", latestUserId)
+            .then()
+            .assertThat()
+            .statusCode(404);
+    }
+
 }

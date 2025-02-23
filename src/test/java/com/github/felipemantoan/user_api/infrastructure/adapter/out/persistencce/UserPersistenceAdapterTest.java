@@ -53,14 +53,14 @@ public class UserPersistenceAdapterTest {
     public void testDelete() {
         final String userId = "67a9156c122b71468d7783f0";
         userPersistenceAdapter.delete(userId);
-        verify(userMongoAdapter).disable(userId);
+        verify(userMongoAdapter).deleteById(userId);
     }
 
     @Test
     public void testGetAll() {
-        when(userMongoAdapter.findAllNoDeleted(any(Pageable.class)))
+        when(userMongoAdapter.findAll(any(Pageable.class)))
             .thenReturn(Page.empty());
         userPersistenceAdapter.getAll(Pageable.unpaged());
-        verify(userMongoAdapter).findAllNoDeleted(any(Pageable.class));
+        verify(userMongoAdapter).findAll(any(Pageable.class));
     }
 }
