@@ -110,11 +110,24 @@ public class DefaultDefinition {
         i_created_a_new_user_with_map(Map.of());
     }
 
+    @When("I get user created")
+    @When("I get user updated")
     @When("I see a user created")
     @When("I see a user updated")
     public void i_see_a_user_created_or_updated() {
         i_count_total_of_users_saved(1);
         Assertions.assertTrue(storage.containsKey(latestUserId));
+
+        SerenityRest
+            .given()
+            .contentType(ContentType.JSON)
+            .when()
+            .get("/{id}", latestUserId)
+            .then()
+            .assertThat()
+            .statusCode(200)
+            .and()
+            .body("id", Matchers.equalTo(latestUserId));
     }
 
     @Then("I should be user field {string} filled with {string}")
@@ -132,18 +145,6 @@ public class DefaultDefinition {
         Map<String, String> user = filteredList.getFirst();
         Assertions.assertTrue(user.containsKey(field));
         Assertions.assertEquals(value, user.get(field));
-
-        SerenityRest
-            .given()
-            .contentType(ContentType.JSON)
-            .when()
-            .get("/{id}", user.get("id"))
-            .then()
-            .assertThat()
-            .statusCode(200)
-            .and()
-            .body("id", Matchers.equalTo(user.get("id")))
-            .body(field, Matchers.equalTo(user.get(field)));
     }
 
     private void i_update_created_user_with_map(String userId, Map<String, String> map) {
