@@ -2,8 +2,7 @@ package com.github.felipemantoan.user_api.infrastructure.adapter.in.http.control
 
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.felipemantoan.user_api.application.port.in.CreateUserPort;
@@ -138,9 +138,12 @@ public class UsersController {
             @Content(mediaType = "application/json", schema = @Schema(type = "object", oneOf = PageableUserResponseDTO.class))
         }),
     })
-    public ResponseEntity<PageableUserResponseDTO> getAll(@PageableDefault(size = 100, sort = "created_at") Pageable pageable) {
+    public ResponseEntity<PageableUserResponseDTO> getAll(
+        @RequestParam(value = "page", defaultValue = "0") Integer page, 
+        @RequestParam(value = "size", defaultValue = "100") Integer size
+    ) {
         return ResponseEntity.ok(
-            userHttpMapper.map(getAllUsersUseCase.execute(pageable))
+            userHttpMapper.map(getAllUsersUseCase.execute(PageRequest.of(page, size)))
         );
     }
 

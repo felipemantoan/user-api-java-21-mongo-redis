@@ -1,4 +1,4 @@
-package com.github.felipemantoan.user_api.adapter.in.http.controller;
+package com.github.felipemantoan.user_api.infrastructure.adapter.in.http.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,7 +27,6 @@ import com.github.felipemantoan.user_api.application.port.in.GetAllUsersPort;
 import com.github.felipemantoan.user_api.application.port.in.GetUserByIdPort;
 import com.github.felipemantoan.user_api.application.port.in.UpdateUserPort;
 import com.github.felipemantoan.user_api.domain.entity.User;
-import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.controller.UsersController;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.CreateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.request.UpdateUserRequestDTO;
 import com.github.felipemantoan.user_api.infrastructure.adapter.in.http.dto.response.PageableUserResponseDTO;
@@ -165,7 +164,7 @@ public class UsersControllerTest {
         Page<User> page = new PageImpl<>(List.of(User.builder().build()));
         when(getAllUsersPort.execute(any(Pageable.class))).thenReturn(page);
         when(userHttpMapper.map(page)).thenReturn(pageableUserResponseDTO);
-        ResponseEntity<PageableUserResponseDTO> response = controller.getAll(Pageable.unpaged());
+        ResponseEntity<PageableUserResponseDTO> response = controller.getAll(0, 100);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(getAllUsersPort).execute(any(Pageable.class));
     }
