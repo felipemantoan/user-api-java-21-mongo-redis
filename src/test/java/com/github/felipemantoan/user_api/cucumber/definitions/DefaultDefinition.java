@@ -23,6 +23,8 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
+import io.restassured.matcher.ResponseAwareMatcher;
+import org.hamcrest.Matchers;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
@@ -131,7 +133,17 @@ public class DefaultDefinition {
         Assertions.assertTrue(user.containsKey(field));
         Assertions.assertEquals(value, user.get(field));
 
-        // get api
+        SerenityRest
+            .given()
+            .contentType(ContentType.JSON)
+            .when()
+            .get("/{id}", user.get("id"))
+            .then()
+            .assertThat()
+            .statusCode(200)
+            .and()
+            .body("id", Matchers.equalTo(user.get("id")))
+            .body(field, Matchers.equalTo(user.get(field)));
     }
 
     private void i_update_created_user_with_map(String userId, Map<String, String> map) {
