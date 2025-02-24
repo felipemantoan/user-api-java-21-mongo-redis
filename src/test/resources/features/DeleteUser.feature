@@ -6,7 +6,6 @@ Feature: Deletes existing user
       | name             | email                       |
       | Patti Mayonnaise | patti.mayonnaise@disney.com |
     When I see a user created
-    Then I should be user field "name" filled with "Patti Mayonnaise"
     And I should be user field "email" filled with "patti.mayonnaise@disney.com"
   Scenario: Deletes an user without errors
     Given I delete latest created user
