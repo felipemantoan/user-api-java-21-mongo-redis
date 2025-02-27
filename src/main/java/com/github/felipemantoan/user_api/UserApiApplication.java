@@ -15,9 +15,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "User API", version = "1.0", description = "API for managing users"))
 public class UserApiApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(UserApiApplication.class, args);
 	}
-
 }

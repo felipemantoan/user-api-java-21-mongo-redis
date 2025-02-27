@@ -54,7 +54,7 @@ public class User implements Serializable {
     @NotEmpty
     @Length(min = 10, max = 11)
     private String phoneNumber;
-    
+
     @CreatedDate
     @Field("created_at")
     private LocalDateTime createdAt;
