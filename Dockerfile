@@ -1,4 +1,4 @@
-FROM vegardit/graalvm-maven:21.0.2 AS deps
+FROM eclipse-temurin:21.0.6_7-jdk AS deps
 
 ENV LANGUAGE='en_US:en'
 
@@ -22,10 +22,10 @@ EXPOSE 8080
 
 FROM development AS builder
 
-RUN ./mvnw -Pnative native:compile -DskipTests
+RUN ./mvnw package -DskipTests
 
-FROM debian:stable-slim AS production
+FROM eclipse-temurin:21.0.6_7-jre AS production
 
-COPY --from=builder --chmod=775 /app/target/user-api application
+COPY --from=builder --chmod=775 /app/target/*.jar application.jar
 
-CMD ["./application"]
+CMD ["java", "-jar", "/application.jar"]

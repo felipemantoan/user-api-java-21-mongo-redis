@@ -3,7 +3,7 @@ services:
   server:
     image: user-api_server:latest
     build:
-      target: production
+      target: development
       context: .
     ports:
       - 8080:8080
@@ -18,11 +18,11 @@ services:
       REDIS_PORT: 6379
       REDIS_TIMEOUT: 60000
       LOG_LEVEL: INFO
-    # develop:
-    #   watch:
-    #     - action: sync+restart
-    #       path: ./
-    #       target: /app
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./
+          target: /app
     depends_on:
       mongo:
         condition: service_healthy
