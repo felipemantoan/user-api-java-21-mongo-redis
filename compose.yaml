@@ -1,8 +1,9 @@
 services:
 
   server:
-    image: localhost/user-api_server:latest
+    image: user-api_server:latest
     build:
+      target: production
       context: .
     ports:
       - 8080:8080
@@ -17,13 +18,16 @@ services:
       REDIS_PORT: 6379
       REDIS_TIMEOUT: 60000
       LOG_LEVEL: INFO
-    # volume:
-    #   - app_data:/app
-    develop:
-      watch:
-        - action: sync+restart
-          path: ./
-          target: /app
+    # develop:
+    #   watch:
+    #     - action: sync+restart
+    #       path: ./
+    #       target: /app
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - spring-user-api
     
@@ -45,6 +49,12 @@ services:
       MONGO_INITDB_DATABASE: userAPI
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mantoan
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     volumes:
       - mongo_data:/data/db
     networks:
@@ -60,4 +70,3 @@ networks:
 volumes:
   mongo_data:
   redis_data:
-  app_data:

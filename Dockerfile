@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine-3.21 as development
+FROM vegardit/graalvm-maven:21.0.2 AS deps
 
 ENV LANGUAGE='en_US:en'
 
@@ -12,8 +12,20 @@ COPY pom.xml ./pom.xml
 
 RUN ./mvnw dependency:go-offline
 
+FROM deps AS development
+
 COPY ./src ./src
 
 CMD ["./mvnw", "spring-boot:run"]
 
 EXPOSE 8080
+
+FROM development AS builder
+
+RUN ./mvnw -Pnative native:compile -DskipTests
+
+FROM debian:stable-slim AS production
+
+COPY --from=builder --chmod=775 /app/target/user-api application
+
+CMD ["./application"]
