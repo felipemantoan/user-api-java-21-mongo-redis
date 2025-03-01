@@ -1,7 +1,7 @@
 services:
 
   server:
-    image: user-api_server:latest
+    image: user-api-server:latest
     build:
       target: development
       context: .
