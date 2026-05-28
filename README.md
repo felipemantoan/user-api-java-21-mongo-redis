@@ -50,11 +50,11 @@ Para executá-los é fácil, acesse o diretório `user-api` e execute o comando:
 
 Nós desejamos que você crie uma aplicação básica (microserviço) este deverá ser um cadastro de usuários, contendo os seguintes recursos:
 
-- Listar, exibir, criar, alterar e excluir usuários  
+- Listar, exibir, criar, alterar e excluir usuários
 
-Coleção de usuários `user` deverá conter os campos: id, name, cpf, email, phone_number, created_at, updated_at  
+Coleção de usuários `user` deverá conter os campos: `id, name, cpf, email, phone_number, created_at, updated_at`
 
-Lembre-se de fazer a comunicação necessária entre os serviços para garantir a consistência de dados.  
+Lembre-se de fazer a comunicação necessária entre os serviços para garantir a consistência de dados.
 
 Essa aplicação também **DEVE** estar de acordo com os padrões REST e **DEVE** ser disponibilizada uma documentação contendo os endpoints e payloads utilizados nas requisições.
 
